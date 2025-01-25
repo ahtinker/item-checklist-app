@@ -1,0 +1,11 @@
+{
+    "short_name": "PML",
+    "name": "Pakkausmuistilista",
+    "icons": [
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "orientation": "portrait",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff"
+  }
