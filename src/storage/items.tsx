@@ -35,7 +35,7 @@ const addItem = (data: itemData) => {
 
     data.id = getNextID()
     data.available = true;
-    data.placeId = 0;
+    data.placeId = data.placeId || 0;
     let exists = false;
     items.forEach((item: itemData) => {
         if(item.name == data.name) {

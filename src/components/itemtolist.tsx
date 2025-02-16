@@ -52,9 +52,10 @@ const ItemToList: React.FC<ItemToListProps> = ({ isActive, id, onSave, onClose }
         console.log(selected)
         ListStorage.assignItemsToList(selected, id, checkedLinks)
         onSave()
+        setSelected([])
     };
     const handleNewItemSave = (data: itemData) => {
-        const saved = ItemStorage.addItem({name: data.name, emoji: data.emoji})
+        const saved = ItemStorage.addItem({ name: data.name, emoji: data.emoji, placeId: data.placeId })
         if(saved) {
             setItems(ItemStorage.getItems())
         }
@@ -106,7 +107,7 @@ const ItemToList: React.FC<ItemToListProps> = ({ isActive, id, onSave, onClose }
                               <label key={index}>
                                 <div className='columns is-mobile is-vcentered mt-1' style={{width: "100%"}}>
                                     <div className="column is-1 pl-5">
-                                        <input type="checkbox" onChange={() => handleItemClick(Number(item.id))} id={`__itemcheckbox_${item.id}`}></input>
+                                                <input type="checkbox" onChange={() => handleItemClick(Number(item.id))} id={`__itemcheckbox_${item.id}`}></input>
                                     </div> 
                                     <div className="column is-2">
                                         <span className="is-size-3 pl-3">

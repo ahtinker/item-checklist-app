@@ -118,6 +118,12 @@ export default function Home() {
           <hr/>
         </a>
       )) : ""}
+      <center className="has-text-grey" style={{ fontSize: "10px", marginTop: "200px", opacity: "0.7" }}>
+        Verkkokehitys Ankeriasniemi
+        <br />Demo: Tavarapakkauslista v1.1
+        <br />
+        <Link className="has-text-link" href="https://github.com/ahtinker/item-checklist-app">GitHub</Link>
+      </center>
       <CreateList isActive={isModalActive} onClose={closeModal} onSave={handleSave}></CreateList>
       <Loading isActive={isLoadingActive}/>
       {/* <button className="button mt-6 is-ghost has-text-light" onClick={() => {localStorage.clear()}}>clear</button> */}

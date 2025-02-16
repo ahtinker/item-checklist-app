@@ -52,7 +52,7 @@ export default function Page() {
       setIsLoadingActive(true);
     };
     const handleSave = (data: itemData) => {
-      const saved = ItemStorage.addItem({name: data.name, emoji: data.emoji})
+      const saved = ItemStorage.addItem({ name: data.name, emoji: data.emoji, placeId: data.placeId })
       if(saved) {
         showNotification(`Uusi tavara '${data.name}' lisätty`, "is-success")
         onUpdate()

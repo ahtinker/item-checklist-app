@@ -1,5 +1,7 @@
 'use client';
 import React from 'react';
+import PlaceStorage from '@/storage/places'
+
 interface itemData {
     name: string,
     emoji: string
@@ -16,6 +18,7 @@ interface CreateItemProps {
 const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) => {
     const [inputValue, setInputValue] = React.useState<string>('');
     const [emojiValue, setEmojiValue] = React.useState<string>(''); // New state for emoji input
+    const [placeValue, setPlaceValue] = React.useState<number>(0); 
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
@@ -24,6 +27,7 @@ const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) =>
     const handleEmojiChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmojiValue(event.target.value.substring(0,2)); // Update emoji value
     };
+
 
     const getDefaultValue = () => "";
 
@@ -36,7 +40,7 @@ const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) =>
 
     const handleSave = () => {
         if(inputValue.length == 0) return onClose();
-        onSave({ name: inputValue, emoji: emojiValue }); // Pass both input and emoji values to the parent
+        onSave({ name: inputValue, emoji: emojiValue, placeId: placeValue }); // Pass both input and emoji values to the parent
     };
 
     return (
@@ -72,6 +76,25 @@ const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) =>
                             />
                         </div>
                     </div>
+                    {PlaceStorage.getPlaces().length != 0 ?
+                        <div className="field">
+                            <label className="label">Paikka</label>
+                            <div className="control">
+                                <select
+                                    className="select px-3"
+                                    onChange={e => setPlaceValue(Number(Array.from(e.target.children)[e.target.selectedIndex].getAttribute("data-placeid")))}
+                                >
+                                    <option>Ei paikkaa</option>
+                                    {PlaceStorage.getPlaces().map((place: any, index: number) => (
+                                        <option key={index} data-placeid={place.id}>
+                                            {place.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        : ""}
+
                 </section>
                 <footer className="modal-card-foot">
                     <div className="buttons">
