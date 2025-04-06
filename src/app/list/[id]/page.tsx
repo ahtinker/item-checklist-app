@@ -3,16 +3,19 @@ import { useParams, useRouter } from 'next/navigation';
 import Storage from "@/storage/lists";
 import ItemStorage from "@/storage/items";
 import PlaceStorage from "@/storage/places";
-import NavBar from "@/components/navbar";
 import Link from 'next/link';
 import React from "react";
 import EditList from '@/components/editlist';
 import Notification from '@/components/notification';
-import { motion } from "framer-motion";
 import Loading from '@/components/loading';
 import ItemToList from '@/components/itemtolist';
 import LinkLists from '@/components/linklists';
 import ItemSettings from './itemSettings';
+
+export async function generateStaticParams() {
+  const ids = [0]; // Replace with real data fetching
+  return ids.map(id => ({ id }));
+}
 
 const ListPage = () => {
   const router = useRouter();
