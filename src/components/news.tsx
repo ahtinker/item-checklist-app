@@ -24,6 +24,7 @@ const News: React.FC<NewsProps> = ({ isActive, onClose }) => {
                         <li>Paikat-osiossa paikkaa painamalla näkee sen paikan tavarat</li>
                         <li>Tavarat voi nyt lisätä pakkauslistoille samalla kun on luomassa tavaraa</li>
                         <li>Tavaroiden emojin sijasta on tavaran nimen ensimmäinen kirjain jos emojia ei ole määritelty</li>
+                        <li>Tumma teema on poistettu käytöstä epäoptimaalisen käyttökokemuksen vuoksi</li>
                         <li>Bugikorjauksia ja pieniä parannuksia</li>
                     </ul>
                 </section>
