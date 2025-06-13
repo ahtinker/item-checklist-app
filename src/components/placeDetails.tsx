@@ -15,6 +15,11 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({ isActive, id, onClose }) =>
     const [activeItemId, setActiveItemId] = useState<Number>();
     const [isSelectPlaceActive, setIsSelectPlaceActive] = useState(false);
     const [items, setItems] = useState([]);
+
+    React.useEffect(() => {
+        setItems(ItemStorage.getItems().filter((item: any) => item.placeId == id))
+    }, [id]);
+
     const openSelectPlaceModal = () => {
         setIsSelectPlaceActive(true);
     };
@@ -29,9 +34,7 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({ isActive, id, onClose }) =>
     const onUpdate = () => {
         setItems(ItemStorage.getItems().filter((item: any) => item.placeId == id))
     }
-    React.useEffect(() => {
-        onUpdate()
-    })
+
     return (
         <div className={`modal ${isActive ? 'is-active' : ''}`}>
             <div className="modal-background"></div>
