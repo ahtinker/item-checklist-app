@@ -1,13 +1,15 @@
 'use client';
 import React from 'react';
 import PlaceStorage from '@/storage/places'
+import ListStorage from '@/storage/lists'
 
 interface itemData {
     name: string,
     emoji: string
     id?: number,
     available?: boolean,
-    placeId?: number
+    placeId?: number,
+    listId?: Array<number>
 }
 interface CreateItemProps {
     isActive: boolean;
@@ -19,7 +21,7 @@ const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) =>
     const [inputValue, setInputValue] = React.useState<string>('');
     const [emojiValue, setEmojiValue] = React.useState<string>(''); // New state for emoji input
     const [placeValue, setPlaceValue] = React.useState<number>(0); 
-
+    const [listValue, setListValue] = React.useState<Array<number>>([]);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
     };
@@ -40,7 +42,7 @@ const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) =>
 
     const handleSave = () => {
         if(inputValue.length == 0) return onClose();
-        onSave({ name: inputValue, emoji: emojiValue, placeId: placeValue }); // Pass both input and emoji values to the parent
+        onSave({ name: inputValue, emoji: emojiValue, placeId: placeValue, listId: listValue }); // Pass both input and emoji values to the parent
     };
 
     return (
@@ -88,6 +90,20 @@ const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) =>
                                     {PlaceStorage.getPlaces().map((place: any, index: number) => (
                                         <option key={index} data-placeid={place.id}>
                                             {place.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        : ""}
+                    {ListStorage.getLists().length != 0 ?
+                        <div className="field">
+                            <label className="label">Lisää pakkauslistalle</label>
+                            <div className="control">
+                                <select multiple className="select px-3" onChange={e => setListValue(Array.from(e.target.children).map((child: any) => Number(child.getAttribute("data-listid"))))}>
+                                    {ListStorage.getLists().map((list: any, index: number) => (
+                                        <option key={index} data-listid={list.id}>
+                                            {list.name}
                                         </option>
                                     ))}
                                 </select>

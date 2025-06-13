@@ -29,7 +29,7 @@ const EditItem: React.FC<EditItemProps> = ({ isActive, itemId, onClose, onSave }
     };
 
     const getDefaultValue = () => item.name;
-    const getDefaultEmojiValue = () => item.emoji?.substring(0,2) || "";
+    const getDefaultEmojiValue = () => item.emoji?.substring(0,2) || item.name[0];
 
     React.useEffect(() => {
         if (isActive) {

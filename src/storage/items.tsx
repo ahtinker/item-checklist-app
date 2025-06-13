@@ -48,7 +48,7 @@ const addItem = (data: itemData) => {
     } else {
         items.push(data)
         window.localStorage.setItem('items', JSON.stringify(items))
-        return true;
+        return data;
     }
 }
 const setItemPlace = (itemId: Number, placeId: Number) => {

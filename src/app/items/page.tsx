@@ -1,26 +1,23 @@
 'use client'
-import Image from "next/image";
-import styles from "./page.module.scss";
-import NavBar from "../../components/navbar"
 import CreateItem from "@/components/createitem";
 import { useState } from "react";
 import ItemStorage from "@/storage/items"
 import PlaceStorage from "@/storage/places"
 import Notification from "@/components/notification";
-import { useRouter } from 'next/navigation';
 import Loading from "@/components/loading";
 import ItemSettings from "./itemSettings";
 import SelectPlace from "./SelectPlace";
+import ListStorage from "@/storage/lists";
 interface itemData {
   name: string,
   emoji: string
   id?: number,
   available?: boolean,
-  placeId?: number
+  placeId?: number,
+  listId?: Array<number>
 }
 export default function Page() {
     const [items, setItems] = useState(ItemStorage.getItems());
-    const router = useRouter();
     const [isNotificationActive, setIsNotificationActive] = useState(false);
     const [notificationContent, setNotificationContent] = useState('Initial content');
     const [notificationColor, setNotificationColor] = useState('is-danger');
@@ -48,16 +45,19 @@ export default function Page() {
       setIsModalActive(false);
     };
     const [isLoadingActive, setIsLoadingActive] = useState(false);
-    const openLoading = () => {
-      setIsLoadingActive(true);
-    };
     const handleSave = (data: itemData) => {
       const saved = ItemStorage.addItem({ name: data.name, emoji: data.emoji, placeId: data.placeId })
       if(saved) {
         showNotification(`Uusi tavara '${data.name}' lisätty`, "is-success")
+        if(data.listId && data.listId.length > 0) {
+          data.listId.forEach((listId: number) => {
+            ListStorage.assignItemsToList([saved.id as number], listId)
+          })
+        }
         onUpdate()
       } else {
         showNotification(`Tavaraa '${data.name}' ei voitu lisätä, sillä sen niminen tavara on jo olemassa.`, "is-warning")
+      
       }
       closeModal()
     }
@@ -114,7 +114,7 @@ export default function Page() {
             <div className={`columns is-mobile is-vcentered pr-5 m-0 ${item.available ? "" : "has-background-light"}`} style={{width: "100%"}}>
               <div className="column is-2">
                 <span className="is-size-3 pl-5 ml-3">
-                  {item.emoji?.substring(0,2)}
+                {(item.emoji || item.name[0]).substring(0,2)}
                 </span>
               </div> 
               <div className="column pl-5 ml-2">

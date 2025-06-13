@@ -28,7 +28,7 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({ isActive, id, onClose }) =>
                             <div className='columns pl-5 is-mobile is-vcentered mb-1' style={{width: "100%"}}>
                                 <div className="column is-2">
                                     <span className="is-size-3 pl-3">
-                                    {item.emoji.substring(0,2)}
+                                    {(item.emoji || item.name[0]).substring(0,2)}
                                     </span>
                                 </div> 
                                 <div className="column">

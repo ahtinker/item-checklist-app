@@ -111,7 +111,7 @@ const ItemToList: React.FC<ItemToListProps> = ({ isActive, id, onSave, onClose }
                                     </div> 
                                     <div className="column is-2">
                                         <span className="is-size-3 pl-3">
-                                        {item.emoji?.substring(0,2)}
+                                        {(item.emoji || item.name[0]).substring(0,2)}
                                         </span>
                                     </div> 
                                     <div className="column">
