@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="has-navbar-fixed-bottom">
+    <html lang="en" className="has-navbar-fixed-bottom" data-theme="light">
       <head>
         <meta name="theme-color" content="#fff"/>
         <link
@@ -37,7 +37,7 @@ export default function RootLayout({
         />
       </head>
       
-      <body className={`${nunito.variable}`}>
+      <body className={`${nunito.variable}`} style={{zoom: "75%"}}>
         <div className="root">
           <PageTransition>          
             {children}

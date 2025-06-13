@@ -1,9 +1,6 @@
 'use client';
 import React from 'react';
-import ListStorage from '@/storage/lists';
-import ItemStorage from '@/storage/items';
 import PlaceStorage from '@/storage/places';
-import EditItem from '@/components/edititem';
 import EditPlace from '@/components/EditPlace';
 interface PlaceSettings {
     placeId: Number;

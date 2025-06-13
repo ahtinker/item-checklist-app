@@ -12,11 +12,6 @@ import ItemToList from '@/components/itemtolist';
 import LinkLists from '@/components/linklists';
 import ItemSettings from './itemSettings';
 
-export async function generateStaticParams() {
-  const ids = [0]; // Replace with real data fetching
-  return ids.map(id => ({ id }));
-}
-
 const ListPage = () => {
   const router = useRouter();
   const [lists, setLists] = React.useState(Storage.getLists()); // Assuming getLists fetches your data from localStorage

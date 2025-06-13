@@ -1,16 +1,12 @@
 'use client'
-import Image from "next/image";
-import styles from "./page.module.scss";
-import NavBar from "../../components/navbar"
-import CreateItem from "@/components/createitem";
 import { useState } from "react";
-import ItemStorage from "@/storage/items"
 import PlaceStorage from "@/storage/places"
 import Notification from "@/components/notification";
 import { useRouter } from 'next/navigation';
 import Loading from "@/components/loading";
 import PlaceSettings from "./PlaceSettings";
 import CreatePlace from "@/components/CreatePlace";
+import PlaceDetails from "@/components/placeDetails";
 interface placeData {
   name: string,
   id?: number,
@@ -36,11 +32,18 @@ export default function Page() {
       setIsNotificationActive(false);
     };
     const [isModalActive, setIsModalActive] = useState(false);
-  
+    const [isPlaceDetailsActive, setIsPlaceDetailsActive] = useState(false);
+    const [placeDetailsId, setPlaceDetailsId] = useState(0);
     const openModal = () => {
       setIsModalActive(true);
     };
-  
+    const openPlaceDetails = (id: number) => {
+      setIsPlaceDetailsActive(true);
+      setPlaceDetailsId(id);
+    };
+    const closePlaceDetails = () => {
+      setIsPlaceDetailsActive(false);
+    };
     const closeModal = () => {
       setIsModalActive(false);
     };
@@ -100,7 +103,7 @@ export default function Page() {
                   <i className="fas fa-location-dot"></i>
                 </span>
               </div> 
-              <div className="column pl-4 is-size-5">
+              <div className="column pl-4 is-size-5" onClick={() => openPlaceDetails(Number(place.id))}>
                 <div>
                   <div>{place.name}</div>
                 </div>
@@ -114,7 +117,7 @@ export default function Page() {
           : ""
         ))}
       <CreatePlace isActive={isModalActive} onClose={closeModal} onSave={handleSave}/>
-
+      <PlaceDetails isActive={isPlaceDetailsActive} id={placeDetailsId} onClose={closePlaceDetails}/>
       <Loading isActive={isLoadingActive}/>
 
     </div>

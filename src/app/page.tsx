@@ -1,29 +1,47 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import NavBar from "../components/navbar"
 import CreateList from "../components/createlist"
 import Notification from "../components/notification"
-import Image from "next/image"
-import PlusIcon from "../../public/plus-solid.svg";
 import Storage from "../storage/lists";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Loading from '@/components/loading';
+import News from '@/components/news';
 
 export default function Home() {
   const [hydrated, setHydrated] = useState(false);
+  const next_public_version = "v1.2";
+
+  let showNews = false;
 
   
+
+  const [isNewsActive, setIsNewsActive] = useState(showNews);
+  
   const router = useRouter();
-  useEffect(() => {
-    setHydrated(true)
-    router.prefetch("/items")
-  }, [])
+  
   const [isModalActive, setIsModalActive] = useState(false);
 
   const openModal = () => {
     setIsModalActive(true);
   };
+
+  const openNews = () => {
+    setIsNewsActive(true);
+  };
+
+  const closeNews = () => {
+    setIsNewsActive(false);
+  };
+
+  useEffect(() => {
+    setHydrated(true)
+    router.prefetch("/items")
+    if(Storage.getLists().length > 0 && localStorage.getItem("newsShown") != next_public_version) {
+      openNews();
+    }
+    localStorage.setItem("newsShown", next_public_version);
+  }, [])
 
   const closeModal = () => {
     setIsModalActive(false);
@@ -120,12 +138,13 @@ export default function Home() {
       )) : ""}
       <center className="has-text-grey" style={{ fontSize: "10px", marginTop: "200px", opacity: "0.7" }}>
         Verkkokehitys Ankeriasniemi
-        <br />Demo: Tavarapakkauslista v1.1
+        <br />Demo: Tavarapakkauslista {next_public_version}
         <br />
         <Link className="has-text-link" href="https://github.com/ahtinker/item-checklist-app">GitHub</Link>
       </center>
       <CreateList isActive={isModalActive} onClose={closeModal} onSave={handleSave}></CreateList>
       <Loading isActive={isLoadingActive}/>
+      <News isActive={isNewsActive} onClose={closeNews}/>
       {/* <button className="button mt-6 is-ghost has-text-light" onClick={() => {localStorage.clear()}}>clear</button> */}
     </div>
   );

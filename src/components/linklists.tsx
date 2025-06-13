@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import ItemStorage from '@/storage/items';
 import ListStorage from "@/storage/lists";
 import Link from 'next/link';
 

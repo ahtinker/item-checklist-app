@@ -91,7 +91,6 @@ a.secondary {
   border-color: var(--gray-alpha-200);
   min-width: 180px;
 }
-
 .footer {
   grid-row-start: 3;
   display: flex;
