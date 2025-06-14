@@ -100,7 +100,7 @@ const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) =>
                         <div className="field">
                             <label className="label">Lisää pakkauslistalle</label>
                             <div className="control">
-                                <select multiple className="select px-3" onChange={e => setListValue(Array.from(e.target.children).map((child: any) => Number(child.getAttribute("data-listid")) && child.selected))}>
+                                <select multiple className="select px-3" onChange={e => setListValue(Array.from(e.target.children).filter((child: any) => child.selected).map((child: any) => Number(child.getAttribute("data-listid"))))}>
                                     {ListStorage.getLists().map((list: any, index: number) => (
                                         <option key={index} data-listid={list.id}>
                                             {list.name}
