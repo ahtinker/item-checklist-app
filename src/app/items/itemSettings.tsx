@@ -3,6 +3,7 @@ import React from 'react';
 import ListStorage from '@/storage/lists';
 import ItemStorage from '@/storage/items';
 import EditItem from '@/components/edititem';
+import MoveItem from '@/components/moveitem';
 interface ItemSettingsProps {
     itemId: Number;
     onUpdate: () => void;
@@ -11,6 +12,7 @@ interface ItemSettingsProps {
   
 const ItemSettings:React.FC<ItemSettingsProps> = ({ itemId, onUpdate, showNotification }) => {
     const [isEditActive, setIsEditActive] = React.useState(false);
+    const [isMoveActive, setIsMoveActive] = React.useState(false);
     
     let item = ItemStorage.getItems(itemId);
     const openItemSettings = () => {
@@ -18,6 +20,12 @@ const ItemSettings:React.FC<ItemSettingsProps> = ({ itemId, onUpdate, showNotifi
     }
     const closeItemSettings = () => {
       setIsEditActive(false)
+    }
+    const openMove = () => {
+        setIsMoveActive(true);
+    }
+    const closeMove = () => {
+        setIsMoveActive(false);
     }
     const remove = () => {
       let c = ItemStorage.deleteItem(itemId)
@@ -45,6 +53,16 @@ const ItemSettings:React.FC<ItemSettingsProps> = ({ itemId, onUpdate, showNotifi
       }
       closeItemSettings()
     }
+    const handleMove = (folderId: number) => {
+        if ((item.folderId || 0) === folderId) {
+            closeMove();
+            return;
+        }
+        ItemStorage.setItemFolder(itemId, folderId);
+        showNotification(`Tavara '${item.name}' siirrettiin onnistuneesti.`, "is-success");
+        onUpdate();
+        closeMove();
+    }
     return (
         <div className="dropdown is-hoverable is-right">
             <div className="dropdown-trigger">
@@ -63,6 +81,14 @@ const ItemSettings:React.FC<ItemSettingsProps> = ({ itemId, onUpdate, showNotifi
                   <span>
                     Muokkaa
                   </span>
+                </a>
+                <a href="#" className="dropdown-item is-size-5" onClick={openMove}>
+                    <span className="icon mr-4">
+                        <i className="fas fa-folder-tree"></i>
+                    </span>
+                    <span>
+                        Siirrä kansioon
+                    </span>
                 </a>
                 <a href="#" className="dropdown-item is-size-5" onClick={markAsLost}>
                   <span className="icon mr-4">
@@ -88,6 +114,7 @@ const ItemSettings:React.FC<ItemSettingsProps> = ({ itemId, onUpdate, showNotifi
               </div>
             </div>
             <EditItem itemId={itemId} isActive={isEditActive} onClose={closeItemSettings} onSave={handleSave}/>
+            <MoveItem isActive={isMoveActive} onClose={closeMove} onSave={handleMove} currentFolderId={item.folderId} />
         </div>
     )
 }

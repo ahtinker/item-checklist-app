@@ -7,7 +7,8 @@ interface itemData {
     emoji: string
     id?: number,
     available?: boolean,
-    placeId?: number
+    placeId?: number,
+    folderId?: number
 }
 
 const getItems = (id?:Number) => {
@@ -36,6 +37,7 @@ const addItem = (data: itemData) => {
     data.id = getNextID()
     data.available = true;
     data.placeId = data.placeId || 0;
+    data.folderId = data.folderId || 0;
     let exists = false;
     items.forEach((item: itemData) => {
         if(item.name == data.name) {
@@ -54,6 +56,12 @@ const addItem = (data: itemData) => {
 const setItemPlace = (itemId: Number, placeId: Number) => {
     let items = getItems()
     items.filter((i:any) => i.id == itemId)[0].placeId = placeId;
+    window.localStorage.setItem('items', JSON.stringify(items))
+    return true;
+}
+const setItemFolder = (itemId: Number, folderId: Number) => {
+    let items = getItems()
+    items.filter((i:any) => i.id == itemId)[0].folderId = folderId;
     window.localStorage.setItem('items', JSON.stringify(items))
     return true;
 }
@@ -110,5 +118,6 @@ export default {
     editItem,
     getItems,
     setItemPlace,
+    setItemFolder,
     toggleItemAvailable
 }

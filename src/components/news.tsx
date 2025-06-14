@@ -21,10 +21,7 @@ const News: React.FC<NewsProps> = ({ isActive, onClose }) => {
                 <section className="modal-card-body">
                     <div className="is-size-5 mb-4">Uutta tässä versiossa</div>
                     <ul style={{listStyleType: "disc", paddingLeft: "20px"}}>
-                        <li>Paikat-osiossa paikkaa painamalla näkee sen paikan tavarat</li>
-                        <li>Tavarat voi nyt lisätä pakkauslistoille samalla kun on luomassa tavaraa</li>
-                        <li>Tavaroiden emojin sijasta on tavaran nimen ensimmäinen kirjain jos emojia ei ole määritelty</li>
-                        <li>Tumma teema on poistettu käytöstä epäoptimaalisen käyttökokemuksen vuoksi</li>
+                        <li>Tavarat voi nyt järjestellä kansioihin</li>
                         <li>Bugikorjauksia ja pieniä parannuksia</li>
                     </ul>
                 </section>

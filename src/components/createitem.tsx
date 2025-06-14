@@ -9,15 +9,17 @@ interface itemData {
     id?: number,
     available?: boolean,
     placeId?: number,
-    listId?: Array<number>
+    listId?: Array<number>,
+    folderId?: number
 }
 interface CreateItemProps {
     isActive: boolean;
     onClose: () => void;
     onSave: (item: itemData) => void;
+    folderId?: number;
 }
   
-const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) => {
+const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave, folderId }) => {
     const [inputValue, setInputValue] = React.useState<string>('');
     const [emojiValue, setEmojiValue] = React.useState<string>(''); // New state for emoji input
     const [placeValue, setPlaceValue] = React.useState<number>(0); 
@@ -42,7 +44,7 @@ const CreateItem: React.FC<CreateItemProps> = ({ isActive, onClose, onSave }) =>
 
     const handleSave = () => {
         if(inputValue.length == 0) return onClose();
-        onSave({ name: inputValue, emoji: emojiValue, placeId: placeValue, listId: listValue }); // Pass both input and emoji values to the parent
+        onSave({ name: inputValue, emoji: emojiValue, placeId: placeValue, listId: listValue, folderId: folderId }); // Pass both input and emoji values to the parent
     };
 
     return (

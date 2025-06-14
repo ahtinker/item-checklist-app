@@ -5,6 +5,8 @@ import ListStorage from "@/storage/lists";
 import PlaceStorage from "@/storage/places";
 import Link from 'next/link';
 import CreateItem from './createitem';
+import FolderStorage from '@/storage/folders';
+
 interface ItemToListProps {
     isActive: boolean;
     id: Number;
@@ -16,13 +18,28 @@ interface itemData {
     emoji: string
     id?: number,
     available?: boolean,
-    placeId?: number
+    placeId?: number,
+    folderId?: number,
+}
+interface folderData {
+    name: string,
+    id?: number,
 }
 
 const ItemToList: React.FC<ItemToListProps> = ({ isActive, id, onSave, onClose }) => {
     const [selected, setSelected] = React.useState<Number[]>([]);
-    const [items, setItems] = React.useState(ItemStorage.getItems());
+    const [items, setItems] = React.useState<itemData[]>(ItemStorage.getItems());
+    const [folders, setFolders] = React.useState<folderData[]>(FolderStorage.getFolders());
+    const [expandedFolders, setExpandedFolders] = React.useState<number[]>([]);
     const [searchValue, setSearchValue] = React.useState<string>('');
+    
+    const toggleFolder = (folderId: number) => {
+        if (expandedFolders.includes(folderId)) {
+            setExpandedFolders(expandedFolders.filter(id => id !== folderId));
+        } else {
+            setExpandedFolders([...expandedFolders, folderId]);
+        }
+    };
     
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
@@ -55,7 +72,7 @@ const ItemToList: React.FC<ItemToListProps> = ({ isActive, id, onSave, onClose }
         setSelected([])
     };
     const handleNewItemSave = (data: itemData) => {
-        const saved = ItemStorage.addItem({ name: data.name, emoji: data.emoji, placeId: data.placeId })
+        const saved = ItemStorage.addItem({ name: data.name, emoji: data.emoji, placeId: data.placeId, folderId: data.folderId })
         if(saved) {
             setItems(ItemStorage.getItems())
         }
@@ -64,6 +81,46 @@ const ItemToList: React.FC<ItemToListProps> = ({ isActive, id, onSave, onClose }
     
     let currentList = ListStorage.getLists().filter((list: any) => list.id == id)[0]
     if(!currentList) return null;
+
+    const availableItems = React.useMemo(() => {
+        return items
+            .filter(item => !currentList.items?.some((i: any) => i.id === item.id))
+            .filter(item => item.name.toLowerCase().includes(searchValue.toLowerCase()));
+    }, [items, currentList.items, searchValue]);
+
+    const renderItemContent = (item: itemData) => (
+        <>
+            <div className='columns is-mobile is-vcentered mt-1' style={{width: "100%"}}>
+                <div className="column is-1 pl-5">
+                            <input type="checkbox" onChange={() => handleItemClick(Number(item.id))} id={`__itemcheckbox_${item.id}`}></input>
+                </div> 
+                <div className="column is-2">
+                    <span className="is-size-3 pl-3">
+                    {(item.emoji || item.name[0]).substring(0,2)}
+                    </span>
+                </div> 
+                <div className="column">
+                    <div>
+                    <strong>{item.name}</strong>
+                    <br/>
+                    {item.available ? "" :
+                        <div className="has-text-danger">Kadonnut</div>
+                    }
+                    <span className="icon-text">
+                        <span className="icon">
+                        <i className="fas fa-location-dot"></i>
+                        </span>
+                        <span>
+                            {PlaceStorage.getPlaces(item.placeId)?.name || "Ei paikkaa"}
+                        </span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+        </>
+    );
+
     return (
         <div className={`modal ${isActive ? 'is-active' : ''}`}>
             <div className="modal-background"></div>
@@ -102,39 +159,35 @@ const ItemToList: React.FC<ItemToListProps> = ({ isActive, id, onSave, onClose }
 
                         
                         <hr/>
-                            {items.map((item: itemData, index: number) => (
-                            (!currentList.items?.filter((i:any) => i.id == item.id)[0] && item.name.toLowerCase().indexOf(searchValue.toLowerCase()) != -1) ?
-                              <label key={index}>
-                                <div className='columns is-mobile is-vcentered mt-1' style={{width: "100%"}}>
-                                    <div className="column is-1 pl-5">
-                                                <input type="checkbox" onChange={() => handleItemClick(Number(item.id))} id={`__itemcheckbox_${item.id}`}></input>
-                                    </div> 
-                                    <div className="column is-2">
-                                        <span className="is-size-3 pl-3">
-                                        {(item.emoji || item.name[0]).substring(0,2)}
-                                        </span>
-                                    </div> 
-                                    <div className="column">
-                                        <div>
-                                        <strong>{item.name}</strong>
-                                        <br/>
-                                        {item.available ? "" :
-                                            <div className="has-text-danger">Kadonnut</div>
-                                        }
-                                        <span className="icon-text">
-                                            <span className="icon">
-                                            <i className="fas fa-location-dot"></i>
-                                            </span>
-                                            <span>
-                                                {PlaceStorage.getPlaces(item.placeId)?.name || "Ei paikkaa"}
-                                            </span>
-                                        </span>
+                            {folders.map((folder) => (
+                                <div key={folder.id}>
+                                    <a onClick={() => toggleFolder(folder.id!)}>
+                                        <div className='columns is-mobile is-vcentered py-4' style={{width: "100%"}}>
+                                            <div className="column">
+                                                <span className="icon">
+                                                    <i className={`fas ${expandedFolders.includes(folder.id!) ? 'fa-chevron-down' : 'fa-chevron-right'}`}></i>
+                                                </span>
+                                                <strong className='ml-2'>{folder.name}</strong>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
+                                    {expandedFolders.includes(folder.id!) && (
+                                        <div>
+                                            {availableItems.filter(item => item.folderId === folder.id).map((item) => (
+                                                <label key={item.id}>
+                                                    {renderItemContent(item)}
+                                                </label>
+                                            ))}
+                                        </div>
+                                    )}
+                                     <hr/>
                                 </div>
-                                <hr/>
-                            </label>
-                            : ""
+                            ))}
+                            <p className="title is-6 mt-5">Kansioimattomat</p>
+                            {availableItems.filter(item => !item.folderId || item.folderId === 0).map((item) => (
+                                <label key={item.id}>
+                                    {renderItemContent(item)}
+                                </label>
                             ))}
                     </div>
                 </section>

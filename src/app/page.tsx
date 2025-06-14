@@ -10,7 +10,7 @@ import News from '@/components/news';
 
 export default function Home() {
   const [hydrated, setHydrated] = useState(false);
-  const next_public_version = "v1.3";
+  const next_public_version = "v1.4";
 
   let showNews = false;
 
