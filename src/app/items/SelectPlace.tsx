@@ -18,7 +18,7 @@ const LinkLists: React.FC<SelectPlaceProps> = ({ isActive, itemId, onSave, onClo
     const [places, setPlaces] = React.useState(ItemStorage.getItems());
     const item = ItemStorage.getItems(itemId);
     
-    const handleSave = (placeId: Number) => {
+    const handleSave = (placeId: number) => {
         ItemStorage.setItemPlace(itemId, placeId)
         onSave()
         onClose();

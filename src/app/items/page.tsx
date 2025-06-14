@@ -137,7 +137,7 @@ export default function Page() {
       setFolders(FolderStorage.getFolders());
     }
     const [isSelectPlaceActive, setIsSelectPlaceActive] = useState(false);
-    const [activeItemId, setActiveItemId] = useState<Number>();
+    const [activeItemId, setActiveItemId] = useState<number>();
   
     const openSelectPlaceModal = () => {
       setIsSelectPlaceActive(true);
@@ -145,7 +145,7 @@ export default function Page() {
     const closeSelectPlaceModal = () => {
       setIsSelectPlaceActive(false);
     };
-    const changeLocation = (itemId:Number) => {
+    const changeLocation = (itemId:number) => {
       setActiveItemId(itemId)
       openSelectPlaceModal()
     } 

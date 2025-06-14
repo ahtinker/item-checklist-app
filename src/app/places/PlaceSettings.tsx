@@ -3,7 +3,7 @@ import React from 'react';
 import PlaceStorage from '@/storage/places';
 import EditPlace from '@/components/EditPlace';
 interface PlaceSettings {
-    placeId: Number;
+    placeId: number;
     onUpdate: () => void;
     showNotification: (content: string, color: string) => void;
 }
@@ -11,7 +11,7 @@ interface PlaceSettings {
 const PlaceSettings:React.FC<PlaceSettings> = ({ placeId, onUpdate, showNotification }) => {
     const [isEditActive, setIsEditActive] = React.useState(false);
     
-    let place = PlaceStorage.getPlaces(placeId);
+    const place = PlaceStorage.getPlaces(placeId);
     const openPlaceSettings = () => {
       setIsEditActive(true)
     }
@@ -19,7 +19,7 @@ const PlaceSettings:React.FC<PlaceSettings> = ({ placeId, onUpdate, showNotifica
       setIsEditActive(false)
     }
     const remove = () => {
-      let c = PlaceStorage.deletePlace(placeId)
+      const c = PlaceStorage.deletePlace(placeId)
       if(c) {
         showNotification(`Paikka '${place.name}' poistettiin onnistuneesti.`, "is-success")
       }   

@@ -7,7 +7,7 @@ interface placeData {
 }
 interface EditPlaceProps {
     isActive: boolean;
-    id: Number;
+    id: number;
     onClose: () => void;
     onSave: (place: placeData) => void;
 }

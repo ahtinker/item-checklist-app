@@ -9,7 +9,7 @@ import FolderStorage from '@/storage/folders';
 
 interface ItemToListProps {
     isActive: boolean;
-    id: Number;
+    id: number;
     onClose: () => void;
     onSave: () => void;
 }
@@ -27,7 +27,7 @@ interface folderData {
 }
 
 const ItemToList: React.FC<ItemToListProps> = ({ isActive, id, onSave, onClose }) => {
-    const [selected, setSelected] = React.useState<Number[]>([]);
+    const [selected, setSelected] = React.useState<number[]>([]);
     const [items, setItems] = React.useState<itemData[]>(ItemStorage.getItems());
     const [folders, setFolders] = React.useState<folderData[]>(FolderStorage.getFolders());
     const [expandedFolders, setExpandedFolders] = React.useState<number[]>([]);
@@ -79,7 +79,7 @@ const ItemToList: React.FC<ItemToListProps> = ({ isActive, id, onSave, onClose }
         closeModal()
     }
     
-    let currentList = ListStorage.getLists().filter((list: any) => list.id == id)[0]
+    const currentList = ListStorage.getLists().filter((list: any) => list.id == id)[0]
     if(!currentList) return null;
 
     const availableItems = React.useMemo(() => {

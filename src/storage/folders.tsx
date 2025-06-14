@@ -6,7 +6,7 @@ interface folderData {
     id?: number,
 }
 
-const getFolders = (id?:Number) => {
+const getFolders = (id?:number) => {
     if(typeof window === "undefined") return [];
 
     const array = JSON.parse(window.localStorage.getItem("folders")||"[]");
@@ -26,7 +26,7 @@ const getNextID = () => {
     return nextId;
 }
 const addFolder = (data: folderData) => {
-    let folders = getFolders();
+    const folders = getFolders();
 
     data.id = getNextID()
     let exists = false;
@@ -46,7 +46,7 @@ const addFolder = (data: folderData) => {
 }
 
 const editFolder = (id: number, name: string) => {
-    let folders = getFolders();
+    const folders = getFolders();
 
     let exists = false;
     folders.forEach((folder: folderData) => {
@@ -64,7 +64,7 @@ const editFolder = (id: number, name: string) => {
         return true;
     }
 }
-const deleteFolder = (id: Number) => {
+const deleteFolder = (id: number) => {
     let folders = getFolders();
 
     const name = folders.filter((folder: folderData) => folder.id == id)[0].name;

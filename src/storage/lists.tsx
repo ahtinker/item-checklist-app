@@ -6,25 +6,25 @@ interface listData {
     name: string,
     lastUpdated: Date,
     id?: number,
-    items?: Number[]
+    items?: number[]
 }
 function parseDate(date:Date) {
-    let ndate = new Date();
-    let currentDate = ndate.getDate()+"."+(ndate.getMonth()+1)+"."+ndate.getFullYear();
-    let ydate = new Date();
+    const ndate = new Date();
+    const currentDate = ndate.getDate()+"."+(ndate.getMonth()+1)+"."+ndate.getFullYear();
+    const ydate = new Date();
     ydate.setDate(ydate.getDate() - 1);
-    let yesterdayDate = ydate.getDate()+"."+(ydate.getMonth()+1)+"."+ydate.getFullYear();
-    let tdate = new Date();
+    const yesterdayDate = ydate.getDate()+"."+(ydate.getMonth()+1)+"."+ydate.getFullYear();
+    const tdate = new Date();
     tdate.setDate(tdate.getDate() + 1);
-    let tomorrowDate = tdate.getDate()+"."+(tdate.getMonth()+1)+"."+tdate.getFullYear();
+    const tomorrowDate = tdate.getDate()+"."+(tdate.getMonth()+1)+"."+tdate.getFullYear();
 
-    let itemDate = date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear();
+    const itemDate = date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear();
     return {
         "date": itemDate,
         "textDate": (itemDate == currentDate ? "Tänään" : (itemDate == yesterdayDate ? "Eilen" : (itemDate == tomorrowDate ? "Huomenna" : itemDate)))
     }
 }
-const getLists = (id?:Number) => {
+const getLists = (id?:number) => {
     if(typeof window === "undefined") return [];
 
     const array = JSON.parse(window.localStorage.getItem("lists")||"[]");
@@ -43,15 +43,15 @@ const getNextID = () => {
     return nextId;
 }
 
-const assignItemsToList = (items: Number[], listId: Number, assignToLinks?: Boolean) => {
-    let lists = getLists();
-    let list = lists.filter((list: listData) => list.id == listId)[0];
+const assignItemsToList = (items: number[], listId: number, assignToLinks?: boolean) => {
+    const lists = getLists();
+    const list = lists.filter((list: listData) => list.id == listId)[0];
 
-    let currentItems = list.items;
+    const currentItems = list.items;
 
     items.forEach(item => {
         if(!currentItems.filter((i:any) => i.id == item)[0]) {
-            let listItem = {
+            const listItem = {
                 id: item,
                 packed: false
             }
@@ -71,19 +71,19 @@ const assignItemsToList = (items: Number[], listId: Number, assignToLinks?: Bool
         })
     }
 }
-const unassignItemFromList = (listId: Number, itemId: Number) => {
-    let lists = getLists();
-    let list = lists.filter((list: listData) => list.id == listId)[0];
+const unassignItemFromList = (listId: number, itemId: number) => {
+    const lists = getLists();
+    const list = lists.filter((list: listData) => list.id == listId)[0];
 
     list.items = list.items.filter((i:any) => i.id != itemId)
 
     window.localStorage.setItem('lists', JSON.stringify(lists))
     return true;
 }
-const toggleItemPack = (itemId: Number, listId: Number) => {
-    let lists = getLists();
-    let list = lists.filter((list: listData) => list.id == listId)[0];
-    let currentItem = list.items.filter((i:any) => i.id == itemId)[0];
+const toggleItemPack = (itemId: number, listId: number) => {
+    const lists = getLists();
+    const list = lists.filter((list: listData) => list.id == listId)[0];
+    const currentItem = list.items.filter((i:any) => i.id == itemId)[0];
     if(!currentItem) return false;
 
     currentItem.packed = !currentItem.packed;
@@ -97,7 +97,7 @@ const clear = () => {
 }
 
 const addList = (data: listData) => {
-    let lists = getLists();
+    const lists = getLists();
     data.id = getNextID();
     data.items = [];
 
@@ -117,7 +117,7 @@ const addList = (data: listData) => {
     }
 }
 const editListName = (name: string, id: number) => {
-    let lists = getLists();
+    const lists = getLists();
 
     let exists = false;
     lists.forEach((list: listData) => {
@@ -149,7 +149,7 @@ const deleteList = (id: number) => {
 const getLinkedLists = (id?:number) => {
     const array = JSON.parse(window.localStorage.getItem("listlinks")||"[]");
     if(id || id == 0) {
-        let links = array.filter((link:number[]) => link[0] == id ? getLists(link[1]) : false);
+        const links = array.filter((link:number[]) => link[0] == id ? getLists(link[1]) : false);
         return links;
     } else {
         return array;
@@ -158,13 +158,13 @@ const getLinkedLists = (id?:number) => {
 const getToThisLinkedLists = (id?:number) => {
     const array = getLinkedLists()
     if(id || id == 0) {
-        let links = array.filter((link:number[]) => link[1] == id ? getLists(link[0]) : false);
+        const links = array.filter((link:number[]) => link[1] == id ? getLists(link[0]) : false);
         return links;
     } else {
         return array;
     }
 }
-const listsLink = (ids: Number[]) => {
+const listsLink = (ids: number[]) => {
     const links = getLinkedLists();
 
     let exists = false;
@@ -194,9 +194,9 @@ const listsUnlink = (ids: number[]) => {
     window.localStorage.setItem('listlinks', JSON.stringify(links))
     return true;
 }
-const unPackAllItems = (id:Number) => {
-    let lists = getLists();
-    let list = lists.filter((list: listData) => list.id == id)[0];
+const unPackAllItems = (id:number) => {
+    const lists = getLists();
+    const list = lists.filter((list: listData) => list.id == id)[0];
     list.items.forEach((item:any) => {
         item.packed = false;
     })

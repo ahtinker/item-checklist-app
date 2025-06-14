@@ -16,7 +16,7 @@ const ListPage = () => {
   const router = useRouter();
   const [lists, setLists] = React.useState(Storage.getLists()); // Assuming getLists fetches your data from localStorage
 
-  const onToggleItem = (itemId: Number) => {
+  const onToggleItem = (itemId: number) => {
     const updated = Storage.toggleItemPack(itemId, currentList.id);
     if (updated) {
       setLists(Storage.getLists());
@@ -102,17 +102,17 @@ const ListPage = () => {
   }
 
   const handleDelete = () => {
-    let deleted = Storage.deleteList(Number(id));
+    const deleted = Storage.deleteList(Number(id));
     if(deleted) {
       console.log("Deleted")
       home()
     }
   }
-  const unlink = (id:Number) => {
+  const unlink = (id:number) => {
     Storage.listsUnlink([currentList.id, id])
     setLists(Storage.getLists());
   }
-  const unlinkToThis = (id:Number) => {
+  const unlinkToThis = (id:number) => {
     Storage.listsUnlink([id, currentList.id])
     setLists(Storage.getLists());
   }

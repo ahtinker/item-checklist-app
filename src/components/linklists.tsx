@@ -11,7 +11,7 @@ interface LinkListsProps {
 }
 
 const LinkLists: React.FC<LinkListsProps> = ({ isActive, id, onSave, onClose }) => {
-    let selected: Number[] = [];
+    let selected: number[] = [];
     const handleListClick = (id: number) => {
         if(selected.includes(id)) {
             selected = selected.filter(n => n != id);

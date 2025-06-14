@@ -10,7 +10,7 @@ interface itemData {
 }
 interface EditItemProps {
     isActive: boolean;
-    itemId: Number;
+    itemId: number;
     onClose: () => void;
     onSave: (item: itemData) => void;
 }

@@ -12,7 +12,7 @@ export default function Home() {
   const [hydrated, setHydrated] = useState(false);
   const next_public_version = "v1.4";
 
-  let showNews = false;
+  const showNews = false;
 
   
 
@@ -84,7 +84,7 @@ export default function Home() {
     name: string,
     lastUpdated: Date,
     id: number,
-    items: Object[]
+    items: object[]
   }
   return (
     <div>

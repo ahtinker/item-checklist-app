@@ -5,7 +5,7 @@ import ItemStorage from '@/storage/items';
 import EditItem from '@/components/edititem';
 import MoveItem from '@/components/moveitem';
 interface ItemSettingsProps {
-    itemId: Number;
+    itemId: number;
     onUpdate: () => void;
     showNotification: (content: string, color: string) => void;
 }
@@ -14,7 +14,7 @@ const ItemSettings:React.FC<ItemSettingsProps> = ({ itemId, onUpdate, showNotifi
     const [isEditActive, setIsEditActive] = React.useState(false);
     const [isMoveActive, setIsMoveActive] = React.useState(false);
     
-    let item = ItemStorage.getItems(itemId);
+    const item = ItemStorage.getItems(itemId);
     const openItemSettings = () => {
       setIsEditActive(true)
     }
@@ -28,7 +28,7 @@ const ItemSettings:React.FC<ItemSettingsProps> = ({ itemId, onUpdate, showNotifi
         setIsMoveActive(false);
     }
     const remove = () => {
-      let c = ItemStorage.deleteItem(itemId)
+      const c = ItemStorage.deleteItem(itemId)
       if(c) {
         showNotification(`Tavara '${item.name}' poistettiin onnistuneesti.`, "is-success")
       }   

@@ -7,7 +7,7 @@ interface placeData {
     id?: number,
 }
 
-const getPlaces = (id?:Number) => {
+const getPlaces = (id?:number) => {
     if(typeof window === "undefined") return [];
 
     const array = JSON.parse(window.localStorage.getItem("places")||"[]");
@@ -27,7 +27,7 @@ const getNextID = () => {
     return nextId;
 }
 const addPlace = (data: placeData) => {
-    let places = getPlaces();
+    const places = getPlaces();
 
     data.id = getNextID()
     let exists = false;
@@ -46,7 +46,7 @@ const addPlace = (data: placeData) => {
     }
 }
 const editPlace = (id: number, name: string) => {
-    let places = getPlaces();
+    const places = getPlaces();
 
     let exists = false;
     places.forEach((places: placeData) => {
@@ -64,7 +64,7 @@ const editPlace = (id: number, name: string) => {
         return true;
     }
 }
-const deletePlace = (id: Number) => {
+const deletePlace = (id: number) => {
     let places = getPlaces();
 
     const name = places.filter((place: placeData) => place.id == id)[0].name;

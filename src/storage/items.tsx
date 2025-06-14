@@ -11,7 +11,7 @@ interface itemData {
     folderId?: number
 }
 
-const getItems = (id?:Number) => {
+const getItems = (id?:number) => {
     if(typeof window === "undefined") return [];
 
     const array = JSON.parse(window.localStorage.getItem("items")||"[]");
@@ -19,7 +19,7 @@ const getItems = (id?:Number) => {
     if(id || id == 0) {
         return array.filter((item:itemData) => item.id == id)[0];
     } else {
-        let ar = array.sort((a:any, b:any) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
+        const ar = array.sort((a:any, b:any) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
         return ar.sort((a:itemData, b:itemData) => Number(a.available === false) - Number(b.available === false))
     }
 }
@@ -32,7 +32,7 @@ const getNextID = () => {
     return nextId;
 }
 const addItem = (data: itemData) => {
-    let items = getItems();
+    const items = getItems();
 
     data.id = getNextID()
     data.available = true;
@@ -53,20 +53,20 @@ const addItem = (data: itemData) => {
         return data;
     }
 }
-const setItemPlace = (itemId: Number, placeId: Number) => {
-    let items = getItems()
+const setItemPlace = (itemId: number, placeId: number) => {
+    const items = getItems()
     items.filter((i:any) => i.id == itemId)[0].placeId = placeId;
     window.localStorage.setItem('items', JSON.stringify(items))
     return true;
 }
-const setItemFolder = (itemId: Number, folderId: Number) => {
-    let items = getItems()
+const setItemFolder = (itemId: number, folderId: number) => {
+    const items = getItems()
     items.filter((i:any) => i.id == itemId)[0].folderId = folderId;
     window.localStorage.setItem('items', JSON.stringify(items))
     return true;
 }
 const editItem = (id: number, name: string, emoji: string) => {
-    let items = getItems();
+    const items = getItems();
 
     let exists = false;
     items.forEach((item: itemData) => {
@@ -85,7 +85,7 @@ const editItem = (id: number, name: string, emoji: string) => {
         return true;
     }
 }
-const deleteItem = (id: Number) => {
+const deleteItem = (id: number) => {
     let items = getItems();
 
     const name = items.filter((item: itemData) => item.id == id)[0].name;
@@ -105,9 +105,9 @@ const deleteItem = (id: Number) => {
     } 
     return false;
 }
-const toggleItemAvailable = (id: Number) => {
-    let items = getItems();
-    let item = items.filter((item: itemData) => item.id == id)[0];
+const toggleItemAvailable = (id: number) => {
+    const items = getItems();
+    const item = items.filter((item: itemData) => item.id == id)[0];
     item.available = !item.available
     window.localStorage.setItem('items', JSON.stringify(items))
 }

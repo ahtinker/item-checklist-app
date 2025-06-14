@@ -4,14 +4,14 @@ import ListStorage from '@/storage/lists';
 import ItemStorage from '@/storage/items';
 import EditItem from '@/components/edititem';
 interface ItemSettingsProps {
-    listId: Number;
-    itemId: Number;
+    listId: number;
+    itemId: number;
     onUpdate: () => void;
 }
   
 const ItemSettings:React.FC<ItemSettingsProps> = ({ listId, itemId, onUpdate }) => {
  const [isEditActive, setIsEditActive] = React.useState(false);
-    let item = ItemStorage.getItems(itemId);
+    const item = ItemStorage.getItems(itemId);
 
     const openItemSettings = () => {
         setIsEditActive(true)

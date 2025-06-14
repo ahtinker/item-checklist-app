@@ -6,13 +6,13 @@ import SelectPlace from '@/app/items/SelectPlace'
 
 interface PlaceDetailsProps {
     isActive: boolean;
-    id: Number;
+    id: number;
     onClose: () => void;
 }
   
 const PlaceDetails: React.FC<PlaceDetailsProps> = ({ isActive, id, onClose }) => {
     const place = PlaceStorage.getPlaces(id);
-    const [activeItemId, setActiveItemId] = useState<Number>();
+    const [activeItemId, setActiveItemId] = useState<number>();
     const [isSelectPlaceActive, setIsSelectPlaceActive] = useState(false);
     const [items, setItems] = useState([]);
 
@@ -26,7 +26,7 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({ isActive, id, onClose }) =>
     const closeSelectPlaceModal = () => {
         setIsSelectPlaceActive(false);
     };
-    const changeLocation = (itemId:Number) => {
+    const changeLocation = (itemId:number) => {
         setActiveItemId(itemId)
         openSelectPlaceModal()
         onUpdate()
